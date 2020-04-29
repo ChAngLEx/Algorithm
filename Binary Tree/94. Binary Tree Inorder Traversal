@@ -12,6 +12,8 @@ Input: [1,null,2,3]
 Output: [1,3,2]
 Follow up: Recursive solution is trivial, could you do it iteratively?
 
+# 1. Recurtion
+
 
 # Definition for a binary tree node.
 # class TreeNode:
@@ -33,3 +35,25 @@ class Solution:
         self.recurtion(root.left)
         self.result.append(root.val)
         self.recurtion(root.right)
+        
+# 2. Divide & Conquer
+# extend() 函数用于在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）。
+
+class Solution(object):
+    def inorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if not root:
+            return []
+        
+        result = []
+        left = self.inorderTraversal(root.left)
+        right = self.inorderTraversal(root.right)
+        
+        result.extend(left)
+        result.append(root.val)
+        result.extend(right)
+        
+        return result
