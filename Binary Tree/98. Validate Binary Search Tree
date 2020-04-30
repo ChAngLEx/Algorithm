@@ -1,0 +1,64 @@
+Given a binary tree, determine if it is a valid binary search tree (BST).
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def __init__(self):
+        self.res = []
+        
+    def isValidBST(self, root: TreeNode) -> bool:
+        self.inorderTraverse(root)
+        for i in range(1, len(self.res)):
+            if self.res[i] <= self.res[i - 1]:
+                return False
+            
+        return True
+        
+        
+        
+        
+    def inorderTraverse(self, root):
+        if not root:
+            return
+        
+        self.inorderTraverse(root.left)
+        self.res.append(root.val)
+        self.inorderTraverse(root.right)
+        
+  
+  # Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        return self.helper(root, float('-inf'), float('inf'))
+    #使用分治的方法判断
+    #左子树的最大值 < 根 < 右子树的最小值 
+    #所有节点都在min和max之间    
+    def helper(self, root, min_value, max_value): 
+        if not root:
+            True
+        if root.val <= min_value:
+            return False
+        if root.val >= max_value:
+            return False
+        
+        return self.helper(root.left, min_value, root.val) and self.helper(root.right, max_value, root.val)
