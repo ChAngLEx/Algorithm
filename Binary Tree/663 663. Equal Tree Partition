@@ -1,0 +1,64 @@
+Given a binary tree with n nodes, your task is to check if it's possible to partition the tree to two trees which have the equal sum of values after removing exactly one edge on the original tree.
+
+Example 1:
+Input:     
+    5
+   / \
+  10 10
+    /  \
+   2   3
+
+Output: True
+Explanation: 
+    5
+   / 
+  10
+      
+Sum: 15
+
+   10
+  /  \
+ 2    3
+
+Sum: 15
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def checkEqualTree(self, root: TreeNode) -> bool:
+        if not root:
+            return False
+        
+        self.stack = []
+        self.get_sum(root)
+
+        sum = self.stack.pop()
+        
+        if sum % 2:
+            return False
+        
+        while self.stack:
+            node = self.stack.pop()
+            
+            if node == sum / 2:
+                return True
+            
+        return False
+    
+    def get_sum(self, root):
+        if not root:
+            return 0
+        
+        left = self.get_sum(root.left)
+        right = self.get_sum(root.right)
+        
+        sum = left + right + root.val
+        
+        
+        self.stack.append(sum)
+        
+        return sum
