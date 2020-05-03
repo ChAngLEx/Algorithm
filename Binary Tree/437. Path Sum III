@@ -1,0 +1,68 @@
+# solution1: two dfs methods: O(nlogn)
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if not root:
+            return 0
+        
+        self.res = 0
+        self.dfs(root, sum)
+        
+        return self.res 
+    
+    def dfs(self, root, sum):
+        if not root:
+            return
+        
+        self.helper(root, 0, sum)
+        self.dfs(root.left, sum)
+        self.dfs(root.right, sum)
+    
+    def helper(self, root, curt, sum):
+        if not root:
+            return 
+        
+        if curt + root.val == sum:
+            self.res += 1
+        
+        self.helper(root.left, curt + root.val, sum)
+        self.helper(root.right, curt + root.val, sum)
+        
+# solution 2
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if not root:
+            return 0
+        
+        self.res = 0
+        self.dfs(root, 0, sum, False)
+        
+        return self.res 
+    
+    def dfs(self, root, curt, sum, is_consecutive):
+        if not root:
+            return
+        
+        if curt + root.val == sum:
+            self.res += 1
+            
+        if not is_consecutive:
+            self.dfs(root.left, 0, sum, False)
+            self.dfs(root.right, 0, sum, False)
+        
+        self.dfs(root.left, curt + root.val, sum, True)
+        self.dfs(root.right, curt + root.val, sum, True)
+        
