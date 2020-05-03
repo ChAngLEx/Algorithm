@@ -1,0 +1,39 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.parent = None
+"""
+
+class Solution:
+    def inorderSuccessor(self, node: 'Node') -> 'Node':
+        self.result = None
+        self.helper(node)
+        
+        return self.result
+    
+    def helper(self, node):
+        if not node or self.result:
+            return
+        
+        # if node has right child, the successor must be in the most left of right child
+        if node.right:
+            node = node.right
+            while node.left:
+                node = node.left
+                
+            self.result = node 
+            return 
+        
+        # if node has not right child, in the first parent whoes value bigger than its
+        node_value = node.val
+        node = node.parent
+        
+        while node and node.val < node_value:
+            node = node.parent
+            
+        
+        self.result = node
