@@ -1,0 +1,30 @@
+# collections.defaultdic()
+使用list作第一个参数，可以很容易将键-值对序列转换为列表字典。
+
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        
+        queue = collections.deque([(root, 0)])
+        res = collections.defaultdict(list)
+        
+        while queue:
+            root, index = queue.popleft()
+            res[index].append(root.val)
+            
+            if root.left:
+                queue.append((root.left, index - 1))
+            if root.right:
+                queue.append((root.right, index + 1))
+                
+        return [res[i] for i in sorted(res.keys())]
