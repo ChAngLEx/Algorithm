@@ -1,0 +1,41 @@
+#1. DFS
+
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        self.res = []
+        self.helper(root, 0)
+        
+        return self.res
+    
+    def helper(self, root, height):
+        if not root:
+            return
+        
+        if len(self.res) == height:
+            self.res.append(root.val)
+        
+        self.helper(root.right, height + 1)
+        self.helper(root.left, height + 1)
+ #2. BFS
+ 
+ class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        if not root:
+            return
+        
+        queue = collections.deque([root])
+        res = []
+        while queue:
+            for _ in range(len(queue)):
+                node = queue.popleft()
+            
+                if node.left:
+                    queue.append(node.left)
+                
+                if  node.right:
+                    queue.append(node.right)
+            
+            res.append(node.val)
+        
+        return res
+                
