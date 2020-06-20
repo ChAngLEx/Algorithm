@@ -60,3 +60,51 @@ class Solution:
         
         return True
 # 2 graph:
+
+DIRECTIONS = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+class Solution:
+    def numDistinctIslands(self, grid: List[List[int]]) -> int:
+        if not grid or not grid[0]:
+            return 0 
+        
+        graphs = set()
+        
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 0:
+                    continue
+                
+                graph = self.get_graphs(grid, i, j)
+                graphs.add(graph)
+        
+        return len(graphs)
+    
+    def get_graphs(self, grid, i, j):
+        queue = collections.deque([(i, j)])        
+        grid[i][j] = 0        
+        graph = ()
+        
+        while queue:
+            x, y = queue.popleft()           
+            
+            for direct in DIRECTIONS:
+                new_x = direct[0] + x
+                new_y = direct[1] + y
+                
+                if self.is_valid(new_x, new_y, grid):
+                    queue.append((new_x, new_y))
+                    grid[new_x][new_y] = 0
+                    
+                    graph += (new_x - i, new_y - j) # how to add tuple 
+        
+        return graph
+                    
+    
+    def is_valid(self, x, y, grid):
+        if x < 0 or x >= len(grid) or y < 0 or y >= len(grid[0]):
+            return False
+        
+        if grid[x][y] == 0:
+            return False
+        
+        return True
