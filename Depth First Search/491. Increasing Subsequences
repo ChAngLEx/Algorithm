@@ -1,0 +1,47 @@
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        if not nums:
+            return []
+        
+        results = []
+        visited = []
+        self.dfs(nums, 0, results, [])
+        
+        return results
+    
+    def dfs(self, nums, index, results, temp):
+        if len(temp) > 1 and temp not in results:
+            results.append(list(temp))
+
+           
+        for i in range(index, len(nums)):            
+            if not temp or nums[i] >= temp[-1]:
+                temp.append(nums[i])
+                self.dfs(nums, i + 1, results, temp)
+                temp.pop()
+
+# quickly
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        if not nums:
+            return []
+        
+        results = []
+        self.dfs(nums, 0, results, [])
+        
+        return results
+    
+    def dfs(self, nums, index, results, temp):
+        if len(temp) > 1:
+            results.append(list(temp))
+
+        #visited = set()
+        
+        for i in range(index, len(nums)):
+            if nums[i] in visited:
+                continue
+            
+            visited.add(nums[i])
+            if not temp or nums[i] >= temp[-1]:
+                temp.append(nums[i])
+                self.dfs(nums, i + 1, results, temp)
+                temp.pop()
