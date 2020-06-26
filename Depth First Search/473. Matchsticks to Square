@@ -1,0 +1,31 @@
+class Solution:
+    def makesquare(self, nums: List[int]) -> bool:
+        if not nums or len(nums) < 4:
+            return False
+        
+        sum_nums = sum(nums)
+        
+        if sum_nums % 4:
+            return False
+        
+        nums.sort(reverse=True)
+        
+        edge = sum_nums // 4
+        edges = [0] * 4
+        
+        return self.dfs(nums, 0, edges, edge)
+    
+    def dfs(self, nums, index, edges, edge):
+        if index == len(nums):
+            return edges[0] == edges[1] == edges[2] == edge
+        
+        for i in range(4):
+            if edges[i] + nums[index] <= edge:
+                edges[i] += nums[index]
+            
+                if self.dfs(nums, index + 1, edges, edge):
+                    return True
+            
+                edges[i] -= nums[index]
+        
+        return False
