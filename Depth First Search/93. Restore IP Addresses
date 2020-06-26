@@ -1,0 +1,35 @@
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        if not s:
+            return []
+        
+        results = []
+        self.dfs(s, 0, results, [])
+        
+        return results
+    
+    def dfs(self, s, index, results, temp):
+        if len(s) == index and len(temp) == 4:
+            results.append('.'.join(temp))
+            return
+        
+        if len(temp) > 4:
+            return
+        
+        for i in range(index, index + 3):
+            if i > len(s) - 1:
+                continue
+            
+            string = s[index:i + 1]
+            num = int(string)
+            
+            if num > 255:
+                continue
+            
+            if i > index and s[index] == '0':
+                continue
+            
+            temp.append(string)
+            self.dfs(s, i + 1, results, temp)
+            temp.pop()
+            
