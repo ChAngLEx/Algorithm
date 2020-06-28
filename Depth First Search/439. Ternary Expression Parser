@@ -1,0 +1,31 @@
+class Solution:
+    def parseTernary(self, expression: str) -> str:
+        questions = []
+        for i in range(len(expression)):
+            if expression[i] == '?':
+                questions.append(i)
+    
+        while questions:               
+            i = questions.pop()
+            
+            if questions and i + 4 < len(expression):
+                if expression[i - 1] == 'T':
+                    temp = expression[i + 1]                    
+                else:
+                    temp = expression[i + 3]
+
+                expression = expression[:i - 1] + temp + expression[i + 4:]
+                
+            elif questions and i + 3 <= len(expression) - 1:
+                if expression[i - 1] == 'T':
+                    temp = expression[i + 1]
+                else:
+                    temp = expression[i + 3]
+
+                expression = expression[: i - 1] + temp
+                
+            elif not questions:                
+                if expression[i - 1] == 'T':
+                    return expression[i + 1]
+                else:
+                    return expression[-1]
