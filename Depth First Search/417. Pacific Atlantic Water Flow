@@ -1,0 +1,35 @@
+class Solution:
+    def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
+        if not matrix or not matrix[0]:
+            return []
+        
+        n, m = len(matrix), len(matrix[0])
+        
+        P_visited = [[False for _ in range(m)] for _ in range(n)]
+        A_visited = [[False for _ in range(m)] for _ in range(n)]
+        
+        for i in range(n):
+            self.dfs(matrix, i, 0, P_visited)
+            self.dfs(matrix, i, m-1, A_visited)
+        
+        for j in range(m):
+            self.dfs(matrix, 0, j, P_visited)
+            self.dfs(matrix, n-1, j, A_visited)
+        
+        res = []
+        for i in range(n):
+            for j in range(m):
+                if P_visited[i][j] and A_visited[i][j]:
+                    res.append([i,j])
+        
+        return res
+    
+    def dfs(self, matrix, x, y, visited):
+        visited[x][y] = True
+        
+        for direct in [(0, 1), (0, -1), (-1, 0), (1, 0)]:
+            new_x, new_y = direct[0] + x, direct[1] + y
+            
+            if 0 <= new_x < len(matrix) and 0 <= new_y < len(matrix[0]) and matrix[new_x][new_y] >= matrix[x][y] and not visited[new_x][new_y]:
+                self.dfs(matrix, new_x, new_y, visited)
+            
