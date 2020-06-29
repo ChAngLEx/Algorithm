@@ -1,0 +1,44 @@
+# 1 hash map
+class Solution:
+    def wordPattern(self, pattern: str, str: str) -> bool:
+        record = {}
+        str_list = str.split()
+        
+        if len(pattern) != len(str_list):
+            return False
+        
+        for i in range(len(pattern)):
+            if pattern[i] in record:                
+                if record[pattern[i]] != str_list[i]:
+                    return False
+            
+            else:
+                if str_list[i] in record.values():
+                    return False
+                
+                record[pattern[i]] = str_list[i]
+        
+        return True
+ 
+# 2. two hash map:
+class Solution:
+    def wordPattern(self, pattern: str, str: str) -> bool:
+        str_list = str.split()
+        
+        if len(str_list) != len(pattern):
+            return False
+        
+        p_record = {}
+        s_record = {}
+        for i in range(len(pattern)):
+            if pattern[i] not in p_record and str_list[i] not in s_record:
+                p_record[pattern[i]] = str_list[i]
+                s_record[str_list[i]] = pattern[i]             
+            
+            elif pattern[i] in p_record and p_record[pattern[i]] != str_list[i]:
+                return False
+            
+            elif str_list[i] in s_record and s_record[str_list[i]] != pattern[i]:
+                return False
+            
+        return True
