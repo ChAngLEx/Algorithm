@@ -1,0 +1,30 @@
+class Solution:
+    def wordPatternMatch(self, pattern: str, str: str) -> bool:
+        return self.dfs(pattern, str, {})
+    
+    def dfs(self, pattern, str, dict):
+        if not pattern:
+            return len(pattern) == len(str)
+        
+        letter = pattern[0]
+        if letter in dict:
+            if not str.startswith(dict[letter]):
+                return False
+            
+            return self.dfs(pattern[1:], str[len(dict[letter]):], dict)
+        
+        for i in range(len(str)):
+            word = str[:i + 1]
+            
+            if word in dict.values():
+                continue
+            
+            dict[letter] = word
+            
+            if self.dfs(pattern[1:],str[i + 1:], dict):
+                
+                return True
+                
+            del dict[letter]
+            
+        return False
