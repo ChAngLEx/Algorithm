@@ -1,0 +1,56 @@
+# T:O(n*k) S:O(k)
+
+import heapq
+class Solution:
+    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
+        if not nums:
+            return []
+        
+        self.min_heap = []
+        self.max_heap = []
+        
+        for i in range(k):
+            self.heap_add(nums[i])
+        
+        
+        
+        results = []
+        median = self.get_median()
+        results.append(median)
+        
+        #sliding
+        for j in range(len(nums) - k):
+            if -nums[j] in self.max_heap:
+                self.max_heap.remove(-nums[j])
+                heapq.heapify(self.max_heap)
+            
+            else:
+                self.min_heap.remove(nums[j])
+                heapq.heapify(self.min_heap)
+            
+            self.heap_add(nums[j + k])
+            
+            median = self.get_median()
+            results.append(median)
+        
+        return results
+    
+    def heap_add(self, num):
+        if len(self.min_heap) < len(self.max_heap):
+            heapq.heappush(self.min_heap, num)
+        
+        else:
+            heapq.heappush(self.max_heap, -num)
+        
+        if self.min_heap and self.max_heap[0] < -self.min_heap[0]:
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
+            heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+    
+    def get_median(self):
+        if not self.min_heap:
+            return -self.max_heap[0]
+    
+        if len(self.min_heap) == len(self.max_heap):
+            return float(self.min_heap[0] - self.max_heap[0]) / 2
+        
+        return -self.max_heap[0]
