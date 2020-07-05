@@ -1,0 +1,10 @@
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        #greedy 比较简单的贪心算法。我们考虑相邻两天的股票价格，如果后一天的股票价格大于前一天的，那么在进行买入卖出操作后，即可获利。而且这样在不考虑交易次数的前提下，这样的贪心一定能获得最大的利润
+        profit = 0
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i - 1]:
+                profit += prices[i] - prices[i - 1]
+        
+        return profit
+        
