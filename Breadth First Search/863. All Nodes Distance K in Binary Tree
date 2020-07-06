@@ -44,3 +44,6 @@ class Solution:
         
         self.get_graph(node, node.left, graph)
         self.get_graph(node, node.right, graph)
+
+# 2. graph:parents:
+
