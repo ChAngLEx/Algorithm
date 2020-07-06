@@ -1,0 +1,46 @@
+# 1. graph:{neighbor}
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
+        #graph = {}
+        graph = collections.defaultdict(set)
+        self.get_graph(None, root, graph)
+        #print(graph[target])
+        
+        queue = collections.deque([target])
+        visited = set([target])
+        
+        
+        while queue:
+            if  K == 0:
+                break
+            
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                for next_node in graph[node]:
+                    if next_node not in visited:
+                        queue.append(next_node)
+                        visited.add(next_node)
+            K -= 1
+                              
+        
+        return [node.val for node in queue]
+                                            
+    
+    def get_graph(self, parent, node, graph):
+        if not node:
+            return
+        
+        #graph[node] = set()
+        if parent and node:
+            graph[parent].add(node)
+            graph[node].add(parent)
+        
+        self.get_graph(node, node.left, graph)
+        self.get_graph(node, node.right, graph)
