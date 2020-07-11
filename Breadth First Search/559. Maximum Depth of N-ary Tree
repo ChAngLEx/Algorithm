@@ -1,0 +1,30 @@
+559. Maximum Depth of N-ary Tree
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        if not root:
+            return 0
+        
+        depth = 0
+        queue = collections.deque([root])
+        
+        
+        while queue:
+            for _ in range(len(queue)):
+                node = queue.popleft()
+
+                if node.children:
+                    for _node in node.children:
+                        queue.append(_node)
+            
+            depth += 1
+        
+        return depth
