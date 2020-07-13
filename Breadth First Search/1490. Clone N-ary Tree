@@ -24,6 +24,21 @@ class Solution:
                 tree[node].children.append(tree[child])
         
         return tree[root]
+        
+ 
+# DFS
+
+
+class Solution(object):
+    def cloneTree(self, root):
+        """
+        :type root: Node
+        :rtype: Node
+        """
+        if not root:
+            return None
+        
+        return Node(root.val, [self.cloneTree(child) for child in root.children])
                 
                 
             
