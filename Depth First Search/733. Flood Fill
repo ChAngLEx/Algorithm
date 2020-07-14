@@ -1,0 +1,14 @@
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        rows, cols, o_color = len(image), len(image[0]), image[sr][sc]
+        
+        def tarverse(row, col):
+            if not (0 <= row < rows and 0 <= col < cols) or image[row][col] != o_color:
+                return
+            
+            image[row][col] = newColor
+            [tarverse(row + x, col + y) for (x , y) in ((0, 1), (0, -1), ( 1, 0), (-1, 0))]
+        
+        if o_color != newColor:
+            tarverse(sr, sc)
+        
