@@ -8,3 +8,7 @@ class Solution:
             dic[sortedItem] = dic.get(sortedItem, []) + [item]
         
         return dic.values()
+
+# length of strs is n. length of all items is m
+# Space:O(n)
+# Time: O(mlogm)
