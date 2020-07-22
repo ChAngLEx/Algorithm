@@ -1,0 +1,13 @@
+class Solution:
+    def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
+        intervals = sorted(intervals, key = lambda x:x[0])
+        
+        #greedy
+        maxend = -1
+        for i in intervals:
+            if i[0] < maxend:
+                return False
+            
+            maxend = max(maxend, i[1])
+        
+        return True
