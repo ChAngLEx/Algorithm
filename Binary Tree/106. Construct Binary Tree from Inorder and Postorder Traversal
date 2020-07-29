@@ -1,0 +1,29 @@
+#（1）tree中不能有重复元素，不然无法在中序遍历中搜索 （2）需要确保输入的中序、后序数组合法（长度相同，确实为同一棵树）
+
+#【解题思路】 （1）后序遍历的最后一个节点一定是当前树的根节点，即left subtree root （2）在中序遍历中搜索得到该节点，则其左侧序列为该根节点的左子树，右侧序列为该节点的右子树，即left subtree right subtree （3）因为左右子树在中序、后序遍历中的序列长度必定一样，所以可以通过中序遍历中root的index位置计算出后序序列中左、右子树的切片序列 （4）递归重复该过程
+
+#【实现要点】 （1）找到root节点在中序数组的root_index （2）则左子树的中、后序遍历分别为：inorder:root_index, postorder:root_index （3）则左子树的中、后序遍历分别为：inorderroot_index + 1:, postorderroot_index:-1 （4）递归出口：子树为空（当前序列长度为0）或者当前子树构建完成（return root）
+
+#【复杂度】 节点数n，树的高度h （极端情况h = n） 时间复杂度：O(n * h) 空间复杂度：额外栈空间 O(h)
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+        if not inorder or not postorder:
+            return None
+        
+        root = TreeNode(postorder[-1])
+        inorder_index = inorder.index(postorder[-1])
+        
+        root.left = self.buildTree(inorder[:inorder_index], postorder[:inorder_index])
+        root.right = self.buildTree(inorder[inorder_index + 1 :], postorder[inorder_index : - 1])
+        
+        return root
+        
+
+
